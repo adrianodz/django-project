@@ -1,5 +1,7 @@
 This project is a study of Django framework.
 
+App available in https://pyprodjangodz.herokuapp.com/
+
 [![Build Status](https://travis-ci.org/adrianodz/django-project.svg?branch=main)](https://travis-ci.org/adrianodz/django-project)
 [![codecov](https://codecov.io/gh/adrianodz/django-project/branch/main/graph/badge.svg?token=K6RGW2VECX)](undefined)
 [![Updates](https://pyup.io/repos/github/adrianodz/django-project/shield.svg)](https://pyup.io/repos/github/adrianodz/django-project/)
