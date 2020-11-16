@@ -45,7 +45,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     """
 
     first_name = models.CharField(_('first name'), max_length=150, blank=True)
-    email = models.EmailField(_('email address'), unique=True)  #only one e-mail
+    email = models.EmailField(_('email address'), unique=True)  # only one e-mail
     is_staff = models.BooleanField(
         _('staff status'),
         default=False,
@@ -89,6 +89,3 @@ class User(AbstractBaseUser, PermissionsMixin):
     def email_user(self, subject, message, from_email=None, **kwargs):
         """Send an email to this user."""
         send_mail(subject, message, from_email, [self.email], **kwargs)
-
-
-
