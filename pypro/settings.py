@@ -16,6 +16,8 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 import dj_database_url
 from decouple import config, Csv
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -139,7 +141,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
 
 COLLECTFAST_ENABLED = False
 
-AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID', default=False)
 
 if AWS_ACCESS_KEY_ID:
     AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
@@ -155,6 +157,7 @@ if AWS_ACCESS_KEY_ID:
 
     # static assets
     STATICFILES_STORAGE = 's3_folder_storage.s3.StaticStorage'
+    COLLECTFAST_STRATEGY = "collectfast.strategies.boto3.Boto3Strategy"
     STATIC_S3_PATH = 'static'
     STATIC_ROOT = f'//{STATIC_S3_PATH}'
     STATIC_URL = f'//s3.amazonaws.com/{AWS_STORAGE_BUCKET_NAME}/{STATIC_S3_PATH}/'
@@ -168,3 +171,16 @@ if AWS_ACCESS_KEY_ID:
 
     INSTALLED_APPS.append('s3_folder_storage')
     INSTALLED_APPS.append('storages')
+
+SENTRY_DSN = config('SENTRY_DSN', default=None)
+
+if SENTRY_DSN:
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[DjangoIntegration()],
+        traces_sample_rate=1.0,
+
+        # If you wish to associate users to errors (assuming you are using
+        # django.contrib.auth) you may enable sending PII data.
+        send_default_pii=True
+    )
