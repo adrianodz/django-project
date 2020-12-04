@@ -16,16 +16,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
-from pypro.base.views import home, trigger_error
+from pypro.base.views import home
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home),
-    path('sentry-debug/', trigger_error),
+    # path('sentry-debug/', trigger_error),
 ]
 
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns.append(
-        path('__debug__/', include(debug_toolbar.urls))
+        path('__debug__/', include(debug_toolbar.urls)),
     )
